@@ -2,9 +2,38 @@
 
   const serverUrl = 'http://127.0.0.1:3000';
 
-  //
+
   // TODO: build the swim command fetcher here
-  //
+
+
+  const getSwimCommand = () => {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:3000/swim',
+      success: () => {
+        // reload the page
+       console.log('success');
+       console.log();
+      }
+    });
+  };
+
+  const getRandomSwimCommand = () => {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:3000/randomSwim',
+      success: (data) => {
+        // reload the page
+       console.log('success')
+       console.log(data);
+      return SwimTeam.move(data);
+      }
+    });
+  };
+
+  // Get random move commands from server
+  var endlessLoop = setInterval(function() { getRandomSwimCommand(); }, 500);
+  setTimeout(() => { clearInterval(endlessLoop) }, 20000)
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
@@ -17,7 +46,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: 'http://127.0.0.1:3000',
       cache: false,
       contentType: false,
       processData: false,
