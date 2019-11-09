@@ -7,33 +7,32 @@
 
 
   const getSwimCommand = () => {
+    console.log('Getting Swim Command');
     $.ajax({
       type: 'GET',
       url: 'http://127.0.0.1:3000/swim',
-      success: () => {
-        // reload the page
-       console.log('success');
-       console.log();
-      }
-    });
-  };
-
-  const getRandomSwimCommand = () => {
-    $.ajax({
-      type: 'GET',
-      url: 'http://127.0.0.1:3000/randomSwim',
+      timeout: 10000,
       success: (data) => {
         // reload the page
-       console.log('success')
-       console.log(data);
-      return SwimTeam.move(data);
+       console.log('Success', data);
+       SwimTeam.move(data);
+       getSwimCommand();
+      },
+      error: (err) => {
+        console.log('Error occurred', err);
+        // if we get a timeout or connection closed then getSwimCommand
+        if (err.statusText === 'timeout') {
+          getSwimCommand();
+        }
       }
     });
   };
 
+  getSwimCommand();
+
   // Get random move commands from server
-  var endlessLoop = setInterval(function() { getRandomSwimCommand(); }, 500);
-  setTimeout(() => { clearInterval(endlessLoop) }, 20000)
+  // var endlessLoop = setInterval(function() { getRandomSwimCommand(); }, 500);
+  // setTimeout(() => { clearInterval(endlessLoop) }, 20000)
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
@@ -56,6 +55,17 @@
       }
     });
   };
+
+
+// $('body').on('receivedDataFromServer', (data) => {
+//   var arrowPress = data.key.match(/Arrow(Up|Down|Left|Right)/);
+//   if (arrowPress) {
+//     var direction = arrowPress[1];
+//     SwimTeam.move(direction.toLowerCase());
+//   }
+// });
+
+
 
   $('form').on('submit', function(e) {
     e.preventDefault();

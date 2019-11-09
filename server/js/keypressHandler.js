@@ -28,6 +28,7 @@ var message = ''; // a buffer to collect key presses
 
 module.exports.initialize = (callback) => {
 
+  // "${chunk}"
   // setup an event handler on standard input
   process.stdin.on('keypress', (chunk, key) => {
     // ctrl+c should quit the program
