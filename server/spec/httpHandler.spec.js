@@ -13,6 +13,7 @@ describe('server responses', () => {
   it('should respond to a OPTIONS request', (done) => {
     let {req, res} = server.mock('/', 'OPTIONS');
 
+
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
@@ -22,15 +23,17 @@ describe('server responses', () => {
   });
 
   it('should respond to a GET request for a swim command', (done) => {
+    const validMessages = ['left', 'right', 'up', 'down'];
     let {req, res} = server.mock('/', 'GET');
+    let succeeded;
 
-    httpHandler.router(req, res);
+    httpHandler.router(req, res, (reply) => {succeeded = validMessages.includes(reply._data.toString())});
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
     done();
   });
 
-  it('should respond with 404 to a GET request for a missing background image', (done) => {
+  xit('should respond with 404 to a GET request for a missing background image', (done) => {
     httpHandler.backgroundImageFile = path.join('.', 'spec', 'missing.jpg');
     let {req, res} = server.mock('/', 'GET');
 

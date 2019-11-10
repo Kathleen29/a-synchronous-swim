@@ -38,6 +38,20 @@
   // The ajax file uplaoder is provided for your convenience!
   // Note: remember to fix the URL below.
   /////////////////////////////////////////////////////////////////////
+  // $('body').css('background-image', 'url(' + imageUrl + ')');
+
+  // const getBackground = () => {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: 'http://127.0.0.1:3000/getImage',
+  //     success: (data) => {
+  //       $('body').css("background-image,);
+  //       // css.background = data
+  //     },
+  // });
+  // }
+
+  // getBackground();
 
   const ajaxFileUplaod = (file) => {
     var formData = new FormData();
@@ -45,7 +59,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'http://127.0.0.1:3000',
+      url: 'http://127.0.0.1:3000/setBackground',
       cache: false,
       contentType: false,
       processData: false,
